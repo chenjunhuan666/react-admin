@@ -1,0 +1,28 @@
+.login-wrap{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #001529;
+    color: white;
+}
+.login{
+    width: 300px;
+    background-color: #fff;
+    background: #001529;
+}
+.login-title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    h4{
+        font-size: 16px;
+        color: white;
+    }
+    i{
+        color:rgb(46,64,82);
+        font-size: 14px;
+    }
+}
+
