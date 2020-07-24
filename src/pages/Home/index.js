@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import './index.scss'
-import { Button } from 'antd'
 class Home extends Component {
     constructor(props){
         super(props)
@@ -12,7 +11,7 @@ class Home extends Component {
     render(){
         return(
             <>
-                <Button type="primary">Primary Button</Button>
+                home
             </>
         )
     }

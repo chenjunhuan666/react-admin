@@ -51,3 +51,62 @@
     ]
   },
 ```
+### 跨域配置
+1. 安装依赖
+```
+yarn add http-proxy-middleware
+```
+2. 新建文件
++ src/setupProxy.js
+```
+const proxy = require("http-proxy-middleware");
+module.exports = function(app){
+  app.use(proxy("/devApi",{
+    target: "http://admintest.happymmall.com", //配置你要请求的服务器地址
+    changeOrigin: true,
+    pathRewrite: {   // 重写路径
+        "^/devApi": "",
+    }
+  }))
+  //app.use(proxy("/manage/api",{
+    //target: "http://admintest.happymmall.com:7000", //配置你要请求的服务器地址
+    //changeOrigin: true,
+  //}))
+}
+```
+3. 修改路径
++ 修改config/paths.js
++ proxySetup路径
+
+### 环境变量
++ `process.env.NODE_ENV`读取变量
+#### 项目打包配置环境变量
+#### 依赖: `npm install -g dotenv-cli`
+```
+"build:dev": "dotenv -e .env.development react-app-rewired build",
+
+"build:pro": "dotenv -e .env.production react-app-rewired build",
+
+"build:test": "dotenv -e .env.test react-app-rewired build"
+```
+
+### 密码加密
+```
+yarn add crypto-js
+import CryptoJs from 'crypto-js'
+```
+#### md5加密
+```
+const pwd = CryptoJs.MD5(password).toString()
+```
+#### SHA1
+```
+let pwd = CryptoJs.SHA1(password).toString()
+```
+#### AES加密 
+```
+第一个参数为需要加密的内容，第二个参数为秘钥const secretKey = "_zefdsuh123";
+let pwd =CryptolS.AES.encrypt(password, secretKey).toSting();
+```
+
+

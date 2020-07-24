@@ -7,9 +7,7 @@
     color: white;
 }
 .login{
-    width: 300px;
-    background-color: #fff;
-    background: #001529;
+    width: 280px;
 }
 .login-title{
     display: flex;
@@ -23,6 +21,15 @@
     i{
         color:rgb(46,64,82);
         font-size: 14px;
+    }
+}
+.login-content{
+    .getCodeButton{
+        font-size: 12px;
+    }
+    .ant-btn-danger[disabled]{
+        background-color: gray;
+        border-color:gray;
     }
 }
 
