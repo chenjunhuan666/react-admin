@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { withRouter } from 'react-router-dom'
 // antd
 import { Form, Input, Button, Row, Col, message, } from 'antd';
 import { UserOutlined, LockOutlined  } from '@ant-design/icons';
@@ -16,7 +16,7 @@ import { Login } from '../../api/account'
 // 组件
 import Code from '../../components/code/index'
 
-class About extends Component {
+class LoginForm extends Component {
     constructor(props){
         super(props)
         this.state = {
@@ -54,6 +54,7 @@ class About extends Component {
             this.setState({
                 loading: false
             })
+            this.props.history.push('/index')
         }).catch(error => {
             console.log("error：",error)
             this.setState({
@@ -178,5 +179,5 @@ class About extends Component {
     }
 }
 
-export default About
+export default withRouter(LoginForm)
 
