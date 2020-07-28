@@ -8,7 +8,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import CryptoJs from 'crypto-js'
 
 // 组件
-import Code from '../../components/code/index'
+import Code from '../../components/Coder/index'
 
 // 密码验证
 import { validate_psd } from '../../utils/validate'

@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import './index.scss'
-
+// react-router-dom
+import { Link } from 'react-router-dom'
+// router
+import router from '../../router/index'
 // antd
 import { Menu } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import {  DingdingOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
 class Aside extends Component {
     constructor(props){
@@ -12,6 +15,31 @@ class Aside extends Component {
 
         }
     }
+
+    // 一级菜单
+    renderMenu = ( { key, title } ) => {
+        return(
+            <Menu.Item key={key}> 
+                <Link to={key}>{title} </Link>
+            </Menu.Item>
+        ) 
+    }
+
+    // 二级及多级菜单
+    renderSubMenu = ( { key, title, child } ) => {
+        return(
+            <SubMenu key={key} icon= {<DingdingOutlined />} title={title}>
+                {
+                    child && child.map(item => {
+                        // return <Menu.Item key={item.key}> {item.title} </Menu.Item>
+                        // 如果再嵌套一层child
+                        return item.child && item.child > 0 ? this.renderSubMenu(item) : this.renderMenu(item)
+                    })
+                }
+            </SubMenu>
+        )
+    }
+    
 
     render(){
         return(
@@ -24,25 +52,14 @@ class Aside extends Component {
                     defaultOpenKeys={['sub1']}
                     style={{ height: '100%', borderRight: 0 }}
                     >
-                    <SubMenu key="sub1" icon={<UserOutlined />} title="subnav 1">
-                        <Menu.Item key="1">option1</Menu.Item>
-                        <Menu.Item key="2">option2</Menu.Item>
-                        <Menu.Item key="3">option3</Menu.Item>
-                        <Menu.Item key="4">option4</Menu.Item>
-                    </SubMenu>
-                    <SubMenu key="sub2" icon={<LaptopOutlined />} title="subnav 2">
-                        <Menu.Item key="5">option5</Menu.Item>
-                        <Menu.Item key="6">option6</Menu.Item>
-                        <Menu.Item key="7">option7</Menu.Item>
-                        <Menu.Item key="8">option8</Menu.Item>
-                    </SubMenu>
-                    <SubMenu key="sub3" icon={<NotificationOutlined />} title="subnav 3">
-                        <Menu.Item key="9">option9</Menu.Item>
-                        <Menu.Item key="10">option10</Menu.Item>
-                        <Menu.Item key="11">option11</Menu.Item>
-                        <Menu.Item key="12">option12</Menu.Item>
-                    </SubMenu>
-                    </Menu>
+
+                    {
+                        router && router.map(item => {
+                            return item.child && item.child.length > 0 ? this.renderSubMenu(item) : this.renderMenu(item)
+                        })
+                    }
+                    
+                </Menu>
             </div>
         )
     }

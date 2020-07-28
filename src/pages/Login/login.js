@@ -16,7 +16,7 @@ import { validate_password } from '../../utils/validate'
 import { Login } from '../../api/account'
 
 // 组件
-import Code from '../../components/code/index'
+import Code from '../../components/Coder/index'
 
 class LoginForm extends Component {
     constructor(props){
