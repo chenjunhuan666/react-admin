@@ -11,7 +11,7 @@ class AddUser extends Component{
     render(){
         return(
             <>
-                添加用户s 
+                添加用户
             </>
         )
     }

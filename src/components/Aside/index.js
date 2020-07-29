@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import './index.scss'
 // react-router-dom
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 // router
 import router from '../../router/index'
 // antd
@@ -12,17 +12,52 @@ class Aside extends Component {
     constructor(props){
         super(props)
         this.state = {
-
+            selectedKeys: [],
+            openKeys: [],
         }
+    }
+
+    // 多级菜单展开
+    onOpenChange = (openKeys) => {
+        this.setState({
+            openKeys: [openKeys[openKeys.length - 1]]
+        })
+    }
+
+    componentDidMount = () => {
+        const pathname = this.props.location.pathname
+        const openPath = pathname.split('/').slice(0,3).join('/')
+        const menuHigh = {
+            selectedKeys: [pathname],
+            openKeys: [openPath]
+        }
+        this.selectMenuHigh(menuHigh)
+    }
+
+    // 菜单点击
+    menuClick = ({ item, key, keyPath, domEvent }) => {
+        const menuHigh = {
+            selectedKeys: [key],
+            openKeys: [keyPath[keyPath.length-1]]
+        }
+        this.selectMenuHigh(menuHigh)
+    }
+
+    // 菜单高光显示
+    selectMenuHigh = ({selectedKeys,openKeys}) => {
+        this.setState({
+            selectedKeys,
+            openKeys 
+        })
     }
 
     // 一级菜单
     renderMenu = ( { key, title } ) => {
         return(
-            <Menu.Item key={key}> 
+            <Menu.Item  key={key}> 
                 <Link to={key}>{title} </Link>
             </Menu.Item>
-        ) 
+        )
     }
 
     // 二级及多级菜单
@@ -42,14 +77,18 @@ class Aside extends Component {
     
 
     render(){
+        const { selectedKeys, openKeys } = this.state
+        const { collapsed } = this.props
         return(
             <div className='aside-warp'>
-                <p>React-Admin</p>
+                <p className= {collapsed ? 'logo close' : 'logo'}>{collapsed ? 'Admin' : 'React-Admin'}</p>
                 <Menu
+                    onOpenChange={this.onOpenChange}
+                    onClick={this.menuClick}
                     theme='dark'
                     mode="inline"
-                    defaultSelectedKeys={['1']}
-                    defaultOpenKeys={['sub1']}
+                    selectedKeys={selectedKeys}
+                    openKeys={openKeys}
                     style={{ height: '100%', borderRight: 0 }}
                     >
 
@@ -65,4 +104,4 @@ class Aside extends Component {
     }
 }
 
-export default Aside
+export default withRouter(Aside)

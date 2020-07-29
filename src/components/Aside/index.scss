@@ -3,10 +3,20 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    p{
+    .logo{
         font-size: 18px;
         height: 47px;
         width: 147px;
+        background-color: #1a2d3f;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 15px 0;
+    }
+    .close{
+        font-size: 14px;
+        height: 27px;
+        width: 70%;
         background-color: #1a2d3f;
         display: flex;
         align-items: center;
