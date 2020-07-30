@@ -6,7 +6,7 @@ import { Link, withRouter } from 'react-router-dom'
 import router from '../../router/index'
 // antd
 import { Menu } from 'antd';
-import {  DingdingOutlined } from '@ant-design/icons';
+import { DingdingOutlined } from '@ant-design/icons';
 const { SubMenu } = Menu;
 class Aside extends Component {
     constructor(props){
@@ -25,6 +25,11 @@ class Aside extends Component {
     }
 
     componentDidMount = () => {
+        this.freshSelect()
+    }
+
+    // 页面刷新，保存选中状态
+    freshSelect = () => {
         const pathname = this.props.location.pathname
         const openPath = pathname.split('/').slice(0,3).join('/')
         const menuHigh = {
@@ -54,7 +59,7 @@ class Aside extends Component {
     // 一级菜单
     renderMenu = ( { key, title } ) => {
         return(
-            <Menu.Item  key={key}> 
+            <Menu.Item  key={key}  > 
                 <Link to={key}>{title} </Link>
             </Menu.Item>
         )

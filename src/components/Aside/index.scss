@@ -24,3 +24,8 @@
         margin: 15px 0;
     }
 }
+/* 侧边栏收起样式--居中 */
+.ant-menu-inline-collapsed > .ant-menu-item{
+    padding: 0 ;
+    text-align: center;
+}
