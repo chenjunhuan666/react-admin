@@ -108,5 +108,6 @@ let pwd = CryptoJs.SHA1(password).toString()
 第一个参数为需要加密的内容，第二个参数为秘钥const secretKey = "_zefdsuh123";
 let pwd =CryptolS.AES.encrypt(password, secretKey).toSting();
 ```
+### `yarn add react-cookies` 进行cookie的存储设置
 
 

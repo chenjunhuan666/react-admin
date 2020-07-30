@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-// session
-import { setToken } from '../../utils/session'
+
+// cookies
+import { setToken, setUsername } from '../../utils/cookies'
+
 // antd
 import { Form, Input, Button, Row, Col, message, } from 'antd';
 import { UserOutlined, LockOutlined  } from '@ant-design/icons';
@@ -57,6 +59,7 @@ class LoginForm extends Component {
                 loading: false
             })
             setToken(res.data.data.token)
+            setUsername(res.data.data.username)
             this.props.history.push('/index')
         }).catch(error => {
             // console.log("error：",error)
