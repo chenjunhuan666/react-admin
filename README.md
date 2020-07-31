@@ -110,4 +110,10 @@ let pwd =CryptolS.AES.encrypt(password, secretKey).toSting();
 ```
 ### `yarn add react-cookies` 进行cookie的存储设置
 
+### 解决引用路径
+1. yarn eject
+2. webpack.config.js
+3. 找到`alias`
+4. `'@': path.resolve('src')`
+
 

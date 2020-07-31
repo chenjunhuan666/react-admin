@@ -1,3 +1,4 @@
+// 自动化工程，减少手动操作
 const components = []
 const files = require.context('../../pages',true,/\.js$/);
 files.keys().map( item => {
