@@ -31,3 +31,36 @@ export function DeleteDepList(data){
         data: data, // 请求类型为post
     }) 
 }
+
+/* 
+    禁启用
+*/
+export function ForbidEnableApi(data){
+    return service.request({
+        url: '/department/status/',
+        method: 'post',
+        data: data, // 请求类型为post
+    }) 
+}
+
+/* 
+    详情
+*/
+export function DetailApi(data){
+    return service.request({
+        url: '/department/detailed/',
+        method: 'post',
+        data: data, // 请求类型为post
+    }) 
+}
+
+/* 
+    编辑
+*/
+export function EditApi(data){
+    return service.request({
+        url: '/department/edit/',
+        method: 'post',
+        data: data, // 请求类型为post
+    }) 
+}

@@ -4,14 +4,43 @@ import React, { Component } from 'react'
 import { Form, Input, Button, Radio, message, InputNumber } from 'antd';
 
 // api
-import { DepartmentAddApi } from '../../api/department'
+import { DepartmentAddApi, DetailApi, EditApi } from '../../api/department'
 class AddDepartment extends Component{
     constructor(props){
         super(props)
         this.state = {
-            loading: false
+            loading: false,
+            id: null,
         }
     }
+
+    UNSAFE_componentWillMount = () => {
+        if(this.props.location.state){
+            this.setState({
+                id: this.props.location.state.id
+            })
+        }
+    }
+    componentDidMount = () => {
+        this.getDetail()
+    }
+
+    getDetail = () => {
+        if( !this.props.location.state) return false
+        DetailApi( {id: this.state.id} ).then(res => {
+            // console.log(res.data.data)
+            // const { name, status, number, content } = res.data.data
+            // this.refs.form.setFieldsValue({
+            //     name,
+            //     status,
+            //     number,
+            //     content
+            // })
+            this.refs.form.setFieldsValue(res.data.data)
+        })
+    }
+
+    // 表单提交
     onFinish = ( values ) => {
         this.setState({
             loading: true
@@ -24,7 +53,18 @@ class AddDepartment extends Component{
             message.info('请进行相关描述')
             return false
         }
-        const requestData = values
+        const requestAddData = values
+        const requestEditData = {
+            ...values,
+            id: this.state.id
+        }
+
+        // id存在是编辑
+        this.state.id ? this.onHandlerEdit(requestEditData) : this.onHandlerAdd(requestAddData)
+    }
+
+    // 添加信息
+    onHandlerAdd = (requestData) => {
         DepartmentAddApi(requestData).then(res => {
             // console.log(res.data)
             message.success(res.data.message)
@@ -38,9 +78,26 @@ class AddDepartment extends Component{
             })
         })
     }
-    
+
+    // 编辑信息
+    onHandlerEdit = (requestAddData) => {
+        EditApi(requestAddData).then(res => {
+            // console.log(res.data)
+            message.success(res.data.message)
+            this.refs.form.resetFields()
+            this.setState({
+                loading: false
+            })
+        }).catch(err => {
+            this.setState({
+                loading: false
+            })
+        })
+    }
+
+
     render(){
-        const { loading } = this.state
+        const { loading, id } = this.state
         const formItemLayout = {
             labelCol: { span: 2 },
             wrapperCol: { span: 20 },
@@ -82,7 +139,7 @@ class AddDepartment extends Component{
                             htmlType="submit"
                             loading={loading}
                         >
-                            确定
+                           { id ? '修改' : '新增'}
                         </Button>
                     </Form.Item>
                 </Form>
