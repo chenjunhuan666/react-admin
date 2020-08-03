@@ -5,6 +5,7 @@
 ### `yarn eject`  // 暴露webpack配置，不可逆
 
 ### `yarn add sass-resources-loader -D` //  sass全局变量
++ webpack.config.js
 ```
 {
               test: sassRegex,

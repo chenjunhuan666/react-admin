@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Switch, HashRouter } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 
 // 组件
 import ControlConsole from '../../pages/ControlConsole/index'
@@ -29,25 +29,23 @@ class Container extends Component{
 
     render(){
         return(
-            <HashRouter>
-                <Switch>
-                    {/* 自动化导入 */}
-                        {/* {
-                            components.map(item => {
-                                return <PrivateRouter exact key={item.path} component={item.component}  path={item.path} />
-                            })
-                        } */}
-                    <PrivateRouter exact component={AddDepartment}  path='/index/department/add'/>
-                    <PrivateRouter exact component={AddPost}  path='/index/post/add'/>
-                    <PrivateRouter exact component={AddUser}  path='/index/user/add'/>
-                    <PrivateRouter exact component={ControlConsole}  path='/index'/>
-                    <PrivateRouter exact component={DepartmentList}  path='/index/department/list'/>
-                    <PrivateRouter exact component={Leave}  path='/index/leave'/>
-                    <PrivateRouter exact component={ExtraWork}  path='/index/extrawork'/>
-                    <PrivateRouter exact component={PostList}  path='/index/post/list'/>
-                    <PrivateRouter exact component={UserList}  path='/index/user/list'/>
-                </Switch> 
-            </HashRouter>
+            <Switch>
+                {/* 自动化导入 */}
+                    {/* {
+                        components.map(item => {
+                            return <PrivateRouter exact key={item.path} component={item.component}  path={item.path} />
+                        })
+                    } */}
+                <PrivateRouter exact component={AddDepartment}  path='/index/department/add'/>
+                <PrivateRouter exact component={AddPost}  path='/index/post/add'/>
+                <PrivateRouter exact component={AddUser}  path='/index/user/add'/>
+                <PrivateRouter exact component={ControlConsole}  path='/index'/>
+                <PrivateRouter exact component={DepartmentList}  path='/index/department/list'/>
+                <PrivateRouter exact component={Leave}  path='/index/leave'/>
+                <PrivateRouter exact component={ExtraWork}  path='/index/extrawork'/>
+                <PrivateRouter exact component={PostList}  path='/index/post/list'/>
+                <PrivateRouter exact component={UserList}  path='/index/user/list'/>
+            </Switch> 
         )
     }
 }
