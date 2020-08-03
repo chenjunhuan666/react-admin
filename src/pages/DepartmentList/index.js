@@ -12,6 +12,12 @@ class DepartmentList extends Component{
     constructor(props){
         super(props)
         this.state = {
+            // 搜索按钮开关
+            searchFlag: false,
+            tableLoading: false,
+            // 开关
+            flag: false,
+            switchId: '',
             confirmLoading: false,
             id: '',
             visible: false,
@@ -44,7 +50,8 @@ class DepartmentList extends Component{
             this.setState({
                 confirmLoading: false,
                 visible: false,
-                id: ''
+                id: '',
+                selectedRowKeys: []
             })
         })
    }
@@ -57,6 +64,7 @@ class DepartmentList extends Component{
 
     // 获取部门列表
     getDepartmentListFun = () => { 
+        this.setState({tableLoading: true})
         const { pageNumber, pageSize, name } = this.state
         const data = {
             pageNumber,
@@ -69,21 +77,28 @@ class DepartmentList extends Component{
             const newData = res.data.data
             if(newData) {
                 this.setState({
-                    tableData: newData.data
+                    tableData: newData.data,
+                    tableLoading: false,
+                    searchFlag: false
                 })
                 // message.info('部门列表加载成功')
                 this.refs.form.resetFields()
             }
             
         }).catch( err => {
-            
+            this.setState({ 
+                tableLoading: false,
+                searchFlag: false 
+            })
         })
     }
 
     // 部门搜索
     onSerach = (values) => {
         // console.log(values)
+        if(this.state.searchFlag) return false
         this.setState({
+            searchFlag: true,
             name: values.name,
             pageNumber: 1,
             pageSize: 10
@@ -99,20 +114,43 @@ class DepartmentList extends Component{
 
     // 禁启用
     handleClick = ( {id, status} ) => {
-        console.log(id,status)
+        // console.log(id,status)
+        if(this.state.flag) return false
+        /*  
+            第一种做法，用组件本身的异步，loading的值通过判断switchId和record.id的一致性
+        */
+        this.setState({
+            switchId: id  
+        })
+        /* 
+            第二种做法, 自己做个开关
+        */
+    //    this.setState({flag: true})
+
         const requestData = {
             id,
             status: status === '1' ? false : true
         }
-        console.log('requestData:',requestData)
+        // console.log('requestData:',requestData)
         ForbidEnableApi(requestData).then(res => {
             message.success(res.data.message)
+            this.setState({switchId: null})
+            // this.setState({flag: false})
             this.getDepartmentListFun()
+        }).catch(err => {
+            this.setState({switchId: null})
+            // this.setState({flag: false})
         })
     }
     
     // 删除部门
     deleteDep = ({id}) => {
+        const { selectedRowKeys } = this.state
+        if(!id){ // 批量删除
+            if(selectedRowKeys.length === 0) return false;
+            id = selectedRowKeys.join()
+        }
+        console.log(id)
         this.setState({
             visible: true,
             id
@@ -120,7 +158,7 @@ class DepartmentList extends Component{
     }
 
     render(){
-        const { tableData, confirmLoading } = this.state
+        const { tableData, confirmLoading, switchId, tableLoading } = this.state
         const rowSelection = {
             onChange: this.onCheckBox,
         };
@@ -136,6 +174,7 @@ class DepartmentList extends Component{
               key: 'status',
               render: (text,record) => (
                 <Switch 
+                    loading={record.id === switchId}
                     defaultChecked= {record.status === '1' ? true: false}
                     checkedChildren="启用" unCheckedChildren="禁用"
                     onClick={() => this.handleClick(record)}
@@ -167,7 +206,7 @@ class DepartmentList extends Component{
                                 编辑
                             </Link>
                         </Button>
-                        <Button onClick = {() =>this.deleteDep(record)}>删除</Button>
+                        <Button onClick = {() =>this.deleteDep(record)} >删除</Button>
                     </div>
                 )
             }
@@ -183,13 +222,14 @@ class DepartmentList extends Component{
                     </Form.Item>
                 </Form>
                 <Table  
+                    loading={tableLoading}
                     rowKey= 'id'
                     columns={columns} 
                     dataSource={tableData} 
                     bordered = {true}
                     rowSelection={rowSelection}
                 />
-                <Button>批量删除</Button>
+                <Button onClick={this.deleteDep} style={{marginTop:'10px'}}>批量删除</Button>
                 <Modal
                     title="删除提示"
                     visible={this.state.visible}
