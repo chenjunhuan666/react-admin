@@ -91,7 +91,6 @@ class Code extends Component{
 
     // 倒计时
     countDown = () => {
-        
         let sec = 60
         this.setState({
             button_loading: false,
