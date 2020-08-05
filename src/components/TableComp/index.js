@@ -25,17 +25,14 @@ class TableComp extends Component {
     componentDidMount = () => {
         // console.log(requestUrl[this.props.config.url])
         this.getDepartmentListFun()
+        this.props.onRef(this)
     }
     
 
     // 获取部门列表
-    getDepartmentListFun = () => { 
+    getDepartmentListFun = (data) => { 
         const { pageNumber, pageSize } = this.state
         this.setState({tableLoading: true})
-        // const data = {
-        //     pageNumber,
-        //     pageSize
-        // }
         // if(name) {
         //     data.name = name
         // }
@@ -47,6 +44,9 @@ class TableComp extends Component {
                 pageSize
             }
         }
+        if(data){
+            requestData.data.name = data
+        }
 
         TableList(requestData).then(res => {
             const newData = res.data.data
@@ -55,10 +55,14 @@ class TableComp extends Component {
                     tableData: newData.data,
                     tableLoading: false
                 })
+                // 控制父组件serachFlag开关的值
+                this.props.sonSetSearchFlag()
             }
             
         }).catch( err => {
             this.setState({tableLoading: false})
+            // 控制父组件serachFlag开关的值
+            this.props.sonSetSearchFlag()
         })
     }
     /* 
@@ -66,7 +70,8 @@ class TableComp extends Component {
     */
     onCheckBox = (selectedRowKeys) => {
         // this.setState({ selectedRowKeys });
-        console.log(selectedRowKeys)
+        // console.log("son-selectedRowKeys",selectedRowKeys)
+        this.props.sonToCheck(selectedRowKeys)
     }
 
 

@@ -47,10 +47,16 @@ class AddDepartment extends Component{
         })
         if(!values.name){
             message.info('部门名称不能为空')
+            this.setState({
+                loading: false
+            })
             return false
         }
         if(!values.content){
             message.info('请进行相关描述')
+            this.setState({
+                loading: false
+            })
             return false
         }
         const requestAddData = values

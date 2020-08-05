@@ -84,6 +84,24 @@ class DepartmentList extends Component{
     componentDidMount = () => {
         // this.getDepartmentListFun()
     }
+    // 父控制子组件
+    onRef = (ref) => {
+        this.table = ref
+    }
+
+    //子调用父，控制searchFlag的值
+    sonSetSearchFlag = () => {
+        this.setState({
+            searchFlag: false
+        })
+    }
+
+    // 子向父传多选selectedRowKeys的值
+    sonToCheck = (selectedRowKeys) => {
+        this.setState({
+            selectedRowKeys
+        })
+    }
 
     /* 
         删除modal框的控制 
@@ -99,6 +117,9 @@ class DepartmentList extends Component{
             // console.log(res.data.data)
             message.success(res.data.message)
             // this.getDepartmentListFun()
+            //调用子组件更新列表
+            this.table.getDepartmentListFun()
+
             this.setState({
                 confirmLoading: false,
                 visible: false,
@@ -125,6 +146,8 @@ class DepartmentList extends Component{
             pageSize: 10
         })
         // this.getDepartmentListFun()
+        //调用子组件更新列表
+        this.table.getDepartmentListFun(this.state.name)
     }
 
 
@@ -153,6 +176,9 @@ class DepartmentList extends Component{
             this.setState({switchId: null})
             // this.setState({flag: false})
             // this.getDepartmentListFun()
+
+            //调用子组件更新列表
+            this.table.getDepartmentListFun()
         }).catch(err => {
             this.setState({switchId: null})
             // this.setState({flag: false})
@@ -163,10 +189,13 @@ class DepartmentList extends Component{
     deleteDep = ({id}) => {
         const { selectedRowKeys } = this.state
         if(!id){ // 批量删除
-            if(selectedRowKeys.length === 0) return false;
+            if(selectedRowKeys.length === 0){
+                message.info('请选择要删除的数据！')
+                return false
+            };
             id = selectedRowKeys.join()
         }
-        // console.log(id)
+        console.log(id)
         this.setState({
             visible: true,
             id
@@ -186,7 +215,12 @@ class DepartmentList extends Component{
                     </Form.Item>
                 </Form>
 
-                <TableComp config = {this.state.tableConfig}/>
+                <TableComp 
+                    onRef={this.onRef} 
+                    sonToCheck = {this.sonToCheck}
+                    config = {this.state.tableConfig}
+                    sonSetSearchFlag = {this.sonSetSearchFlag}
+                />
 
                 <Button onClick={this.deleteDep} style={{marginTop:'10px'}}>批量删除</Button>
                 <Modal
