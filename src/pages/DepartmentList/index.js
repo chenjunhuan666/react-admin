@@ -195,7 +195,7 @@ class DepartmentList extends Component{
             };
             id = selectedRowKeys.join()
         }
-        console.log(id)
+        // console.log(id)
         this.setState({
             visible: true,
             id
@@ -216,6 +216,7 @@ class DepartmentList extends Component{
                 </Form>
 
                 <TableComp 
+                    batchButton={true}
                     onRef={this.onRef} 
                     sonToCheck = {this.sonToCheck}
                     config = {this.state.tableConfig}

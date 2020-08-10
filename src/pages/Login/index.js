@@ -7,11 +7,22 @@ class About extends Component {
         super(props)
         this.state = {
             visiableValue: 'login',
+            num: 0
         }
     }
 
     componentDidMount = () => {
         // console.log(process.env)
+        this.setState({num: this.state.num+1})
+        console.log(this.state.num)
+        this.setState({num: this.state.num+1})
+        console.log(this.state.num)
+        setTimeout(() => {
+            this.setState({num: this.state.num+1})
+            console.log(this.state.num)
+            this.setState({num: this.state.num+1})
+            console.log(this.state.num)
+        }, 0);
     }
 
     changeToRegister = (value) => {
